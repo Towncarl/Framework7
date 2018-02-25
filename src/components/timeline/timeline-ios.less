@@ -17,14 +17,14 @@
     }
   }
   .timeline-item-content {
+    .card, &.card, .list, &.list, .block, &.block {
+      margin: 0;
+      width: 100%;
+    }
     .card, .list, .block {
       + .card, + .list, + .block {
         margin: 15px 0 0;
       }
-    }
-    .card, &.card, .list, &.list, .block, &.block {
-      margin: 0 !important;
-      width: 100%;
     }
   }
   .timeline-item-inner {
@@ -155,7 +155,7 @@
     }
   }
 
-  .safe-areas({
+  .safe-areas-landscape({
     .safe-area-left({
       .timeline-horizontal:not(.no-ios-edges):not(.no-ios-left-edge) {
         padding-left: constant(safe-area-inset-left);
@@ -164,6 +164,7 @@
         .timeline-month-title {
           span {
             left: ~"calc(10px + constant(safe-area-inset-left))";;
+            left: ~"calc(10px + env(safe-area-inset-left))";;
           }
         }
 

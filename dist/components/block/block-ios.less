@@ -11,6 +11,7 @@
     text-transform: uppercase;
     color: #6d6d72;
     margin: 35px 15px 10px;
+    line-height: 17px;
     + .list, + .block, + .card, + .timeline, + .block-header {
       margin-top: 10px;
     }
@@ -91,12 +92,13 @@
       }
     }
   }
-  .safe-areas({
+  .safe-areas-landscape({
     .safe-area-left({
       .block:not(.inset):not(.tablet-inset):not(.no-ios-edges):not(.no-ios-left-edge),
       .block-header,
       .block-footer {
         padding-left: ~"calc(15px + constant(safe-area-inset-left))";
+        padding-left: ~"calc(15px + env(safe-area-inset-left))";
       }
       .block:not(.no-ios-edges):not(.no-ios-left-edge) {
         .block-header, .block-footer {
@@ -106,10 +108,12 @@
       .block.inset:not(.no-ios-edges):not(.no-ios-left-edge),
       .block-title:not(.no-ios-edges):not(.no-ios-left-edge) {
         margin-left: ~"calc(15px + constant(safe-area-inset-left))";
+        margin-left: ~"calc(15px + env(safe-area-inset-left))";
       }
       @media all and (min-width:768px) {
         .block.tablet-inset:not(.no-ios-edges):not(.no-ios-left-edge) {
           margin-left: ~"calc(15px + constant(safe-area-inset-left))";
+          margin-left: ~"calc(15px + env(safe-area-inset-left))";
         }
       }
     });
@@ -118,6 +122,7 @@
       .block-header,
       .block-footer {
         padding-right: ~"calc(15px + constant(safe-area-inset-right))";
+        padding-right: ~"calc(15px + env(safe-area-inset-right))";
       }
       .block:not(.no-ios-edges):not(.no-ios-right-edge) {
         .block-header, .block-footer {
@@ -127,10 +132,12 @@
       .block.inset:not(.no-ios-edges):not(.no-ios-right-edge),
       .block-title:not(.no-ios-edges):not(.no-ios-right-edge) {
         margin-right: ~"calc(15px + constant(safe-area-inset-right))";
+        margin-right: ~"calc(15px + env(safe-area-inset-right))";
       }
       @media all and (min-width:768px) {
         .block.tablet-inset:not(.no-ios-edges):not(.no-ios-right-edge) {
           margin-right: ~"calc(15px + constant(safe-area-inset-right))";
+          margin-right: ~"calc(15px + env(safe-area-inset-right))";
         }
       }
     });

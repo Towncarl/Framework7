@@ -89,20 +89,27 @@ const Statusbar = {
   init() {
     const app = this;
     const params = app.params.statusbar;
+    if (!params.enabled) return;
 
     if (params.overlay === 'auto') {
       if (Device.needsStatusbarOverlay()) {
         $('html').addClass('with-statusbar');
       }
-      if (Device.cordova) {
-        $(document).on('resume', () => {
-          Statusbar.checkOverlay();
-        }, false);
-        if (Device.iphoneX) {
-          app.on('orientationchange', () => {
+
+      if (Device.ios && (Device.cordova || Device.webView)) {
+        if (window.orientation === 0) {
+          app.once('resize', () => {
             Statusbar.checkOverlay();
           });
         }
+
+        $(document).on('resume', () => {
+          Statusbar.checkOverlay();
+        }, false);
+
+        app.on('orientationchange resize', () => {
+          Statusbar.checkOverlay();
+        });
       }
     } else if (params.overlay === true) {
       $('html').addClass('with-statusbar');
@@ -139,6 +146,7 @@ export default {
   name: 'statusbar',
   params: {
     statusbar: {
+      enabled: true,
       overlay: 'auto',
       scrollTopOnClick: true,
       iosOverlaysWebView: true,
@@ -151,7 +159,7 @@ export default {
     const app = this;
     Utils.extend(app, {
       statusbar: {
-        check: Statusbar.check,
+        checkOverlay: Statusbar.checkOverlay,
         hide: Statusbar.hide,
         show: Statusbar.show,
         iosOverlaysWebView: Statusbar.iosOverlaysWebView,
@@ -171,6 +179,7 @@ export default {
   clicks: {
     '.statusbar': function onStatusbarClick() {
       const app = this;
+      if (!app.params.statusbar.enabled) return;
       if (!app.params.statusbar.scrollTopOnClick) return;
       Statusbar.onClick.call(app);
     },

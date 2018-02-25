@@ -90,7 +90,7 @@ class Actions extends Modal {
           convertToPopover = true;
         }
       }
-      if (convertToPopover) {
+      if (convertToPopover && actions.popoverHtml) {
         popover = app.popover.create({
           content: actions.popoverHtml,
           backdrop: actions.params.backdrop,
@@ -116,7 +116,7 @@ class Actions extends Modal {
           });
         });
       } else {
-        actions.$el = $(actions.actionsHtml);
+        actions.$el = actions.actionsHtml ? $(actions.actionsHtml) : actions.$el;
         actions.$el[0].f7Modal = actions;
         actions.$el.find('.actions-button').each((groupIndex, buttonEl) => {
           $(buttonEl).on('click', buttonOnClick);
@@ -147,6 +147,32 @@ class Actions extends Modal {
       $backdropEl,
       backdropEl: $backdropEl && $backdropEl[0],
       type: 'actions',
+    });
+
+    function handleClick(e) {
+      const target = e.target;
+      const $target = $(target);
+      if ($target.closest(actions.el).length === 0) {
+        if (
+          actions.params.closeByBackdropClick &&
+          actions.params.backdrop &&
+          actions.backdropEl &&
+          actions.backdropEl === target
+        ) {
+          actions.close();
+        }
+      }
+    }
+
+    actions.on('opened', () => {
+      if (actions.params.closeByBackdropClick) {
+        app.on('click', handleClick);
+      }
+    });
+    actions.on('close', () => {
+      if (actions.params.closeByBackdropClick) {
+        app.off('click', handleClick);
+      }
     });
 
     if ($el) {

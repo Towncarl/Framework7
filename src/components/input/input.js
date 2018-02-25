@@ -47,10 +47,10 @@ const Input = {
     if (currentHeight !== scrollHeight) {
       if (scrollHeight > initialHeight) {
         $textareaEl.css('height', `${scrollHeight}px`);
-        $textareaEl.trigger('textarea:resize', initialHeight, currentHeight, scrollHeight);
+        $textareaEl.trigger('textarea:resize', { initialHeight, currentHeight, scrollHeight });
       } else if (scrollHeight < currentHeight) {
         $textareaEl.css('height', '');
-        $textareaEl.trigger('textarea:resize', initialHeight, currentHeight, initialHeight);
+        $textareaEl.trigger('textarea:resize', { initialHeight, currentHeight, scrollHeight });
       }
     }
   },
@@ -230,7 +230,7 @@ export default {
         focus: Input.focus.bind(app),
         blur: Input.blur.bind(app),
         validate: Input.validate.bind(app),
-        validateInputs: Input.validate.bind(app),
+        validateInputs: Input.validateInputs.bind(app),
         checkEmptyState: Input.checkEmptyState.bind(app),
         resizeTextarea: Input.resizeTextarea.bind(app),
         init: Input.init.bind(app),

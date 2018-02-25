@@ -4,6 +4,9 @@
   .searchbar {
     height: @searchbarSize;
     background: @searchbarBg;
+    &.no-hairline {
+      .hairline-remove(bottom);
+    }
     input[type="search"], input[type="text"] {
       padding: 0 28px;
       box-sizing: border-box;
@@ -149,7 +152,7 @@
       }
     }
   });
-  .safe-areas({
+  .safe-areas-landscape({
     .safe-area-left({
       .searchbar-inner {
         padding-left: ~"calc(8px + constant(safe-area-inset-left))";

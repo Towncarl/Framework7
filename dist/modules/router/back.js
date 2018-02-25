@@ -133,7 +133,7 @@ function backward(el, backwardOptions) {
   function insertPage() {
     if ($newPage.next($oldPage).length === 0) {
       if (!newPageInDom && f7Component) {
-        f7Component.mount((componentEl) => {
+        f7Component.$mount((componentEl) => {
           $(componentEl).insertBefore($oldPage);
         });
       } else {
@@ -301,7 +301,6 @@ function loadBack(backParams, backOptions, ignorePageChange) {
   const params = backParams;
   const options = backOptions;
   const { url, content, el, pageName, template, templateUrl, component, componentUrl } = params;
-  const { ignoreCache } = options;
 
   if (
     options.route.url &&
@@ -360,7 +359,7 @@ function loadBack(backParams, backOptions, ignorePageChange) {
       router.xhr.abort();
       router.xhr = false;
     }
-    router.xhrRequest(url, ignoreCache)
+    router.xhrRequest(url, options)
       .then((pageContent) => {
         router.backward(router.getPageEl(pageContent), options);
       })
@@ -477,6 +476,11 @@ function back(...args) {
     Utils.extend(options, route.route.options, navigateOptions, { route });
   } else {
     Utils.extend(options, navigateOptions, { route });
+  }
+
+  if (options && options.context) {
+    route.context = options.context;
+    options.route.context = options.context;
   }
 
   if (options.force && router.params.stackPages) {
